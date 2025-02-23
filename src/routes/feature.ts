@@ -32,7 +32,10 @@ export const feature = new Elysia({prefix: "/feature"})
       console.log("Features Accessed by", user?.emailAddresses[0].emailAddress)
 
       const feature = await ContentStack.contentType("feature").entry().query().where("slug", QueryOperation.EQUALS, slug).find()
-    return feature
+    return {
+      test: "From Railway",
+      feature
+    }
   }, {
     params: t.Object({
       slug: t.String()
