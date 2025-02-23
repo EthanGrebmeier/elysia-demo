@@ -22,9 +22,12 @@ export const feature = new Elysia({prefix: "/feature"})
     const user = await clerk?.users.getUser(auth?.userId)
     console.log("Features Accessed by", user?.emailAddresses[0].emailAddress)
 
-    const content = await ContentStack.contentType("feature").entry().find()
+    const features = await ContentStack.contentType("feature").entry().find()
 
-    return content
+    return {
+      test: "from railway",
+      features,
+    }
   })
   .get('/:slug', async ({ auth, clerk, params: {slug}, error }) => {
     if (!auth?.userId) return error(401, "Unauthorized")
@@ -32,10 +35,7 @@ export const feature = new Elysia({prefix: "/feature"})
       console.log("Features Accessed by", user?.emailAddresses[0].emailAddress)
 
       const feature = await ContentStack.contentType("feature").entry().query().where("slug", QueryOperation.EQUALS, slug).find()
-    return {
-      test: "From Railway",
-      feature
-    }
+    return feature
   }, {
     params: t.Object({
       slug: t.String()
